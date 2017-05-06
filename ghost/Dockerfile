@@ -1,0 +1,9 @@
+FROM ghost:0.7.5
+
+RUN apt-get update -y && apt-get install rsync vim -y
+ADD entrypoint.sh /entrypoint.sh
+EXPOSE 2368
+WORKDIR /usr/src/ghost
+ENTRYPOINT  ["/entrypoint.sh"]
+CMD ["npm", "start"]
+
