@@ -1,4 +1,4 @@
-FROM ghost:0.7.5
+FROM ghost:0.11.8
 
 RUN apt-get update -y && apt-get install rsync vim -y
 ADD entrypoint.sh /entrypoint.sh
