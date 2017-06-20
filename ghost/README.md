@@ -30,7 +30,7 @@ and visit `:8080`
 
 ## Modifying themes
 
-* Clone someones theme from github into `/themes`, i.e
+* Clone someones theme from github into `/themes`, e.g the [coder theme](https://github.com/mbejda/CoderGhostTheme)
 * run this image locally, hack on the theme
 * git commit and push to your repo
 * git pull in production and reload docker
