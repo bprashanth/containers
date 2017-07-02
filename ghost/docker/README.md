@@ -7,14 +7,18 @@ A clone of ghost that allows me to control the mount/entrypoints/themes/config.
 `cd` into the directory this README is in
 
 ```
-$ cd github.com/bprashanth/dockerfiles/ghost
+$ cd github.com/bprashanth/containers/ghost/docker
 $ ls -lh
--rw-r----- 1 beeps eng 4.6K May  6 11:19 config.js
 -rw-r----- 1 beeps eng  114 May  6 11:16 Dockerfile
 -rw-r----- 1 beeps eng  430 May  6 11:15 entrypoint.sh
 -rw-r----- 1 beeps eng  176 May  6 10:48 Makefile
 -rw-r----- 1 beeps eng 1.6K May  6 11:38 README.md
-drwxr-x--- 2 beeps eng 4.0K May  6 11:44 themes
+
+$ ls -lh ../kubernetes
+-rw-r----- 1 beeps eng 4.5K Jul  2 13:01 config.js
+-rw-r----- 1 beeps eng  940 Jul  2 13:01 deployment.yaml
+-rw-r----- 1 beeps eng  123 Jul  2 13:01 Dockerfile
+drwxr-x--- 4 beeps eng 4.0K Jul  2 13:01 themes
 ```
 
 and execute
