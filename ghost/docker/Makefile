@@ -1,6 +1,6 @@
 all: push
 
-TAG=0.2
+TAG=0.4
 PREFIX=bprashanth/ghost
 
 container:

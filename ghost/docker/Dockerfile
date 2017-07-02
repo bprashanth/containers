@@ -1,4 +1,4 @@
-FROM ghost:0.11.8
+FROM ghost:0.11.10
 
 RUN apt-get update -y && apt-get install rsync vim sqlite3 -y
 ADD entrypoint.sh /entrypoint.sh

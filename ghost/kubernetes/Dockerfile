@@ -1,4 +1,4 @@
-FROM bprashanth/ghost:0.3
+FROM bprashanth/ghost:0.4
 
 ADD themes /usr/src/ghost/content/themes
 ADD config.js /usr/src/ghost/staging_config.js
