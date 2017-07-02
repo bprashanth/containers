@@ -40,7 +40,7 @@ spec:
     spec:
       containers:
       # ghost:4.7.3-apache
-      - image: bprashanth/ghost:0.3
+      - image: bprashanth/ghost:0.2
         imagePullPolicy: Always
         env:
         - name: NODE_ENV
