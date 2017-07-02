@@ -6,6 +6,7 @@ if [ -f "${GHOST_SOURCE}/staging_config.js" ]; then
   cp "${GHOST_SOURCE}/staging_config.js" "${GHOST_CONTENT}/config.js"
 fi
 mkdir -p "${GHOST_CONTENT}/content/themes"
+chmod -cR 777 "${GHOST_SOURCE}/content/themes"
 rsync -aI "${GHOST_SOURCE}/content/themes/" "${GHOST_CONTENT}/content/themes/"
 chown -R user:user "$GHOST_CONTENT"
 exec "$@"

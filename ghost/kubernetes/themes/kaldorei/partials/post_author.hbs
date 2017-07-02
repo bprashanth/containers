@@ -1,0 +1,49 @@
+{{! Everything inside the #author tags pulls data from the author }}
+{{#author}}
+{{#if image}}
+<figure class="author-image">
+    <a class="img" href="{{url}}" style="background-image: url({{image}})"><span class="hidden">{{name}}'s Picture</span></a>
+</figure>
+{{/if}}
+{{/author}}
+<figure class="author-info">
+    <section class="author-info-title">
+        <span><time class="post-date pull-right" datetime="{{date format='YYYY-MM-DD'}}">Published at：{{date format="YYYY-MM-DD"}}</time></span>
+        {{#author}}
+        <span>Author：{{name}}</span>
+    </section>
+    <section class="author-info-content">
+        {{#if bio}}
+            <span class="author-info-bio">{{bio}}</span>
+        {{else}}
+            <p>Read <a href="{{url}}">more posts</a> by this author.</p>
+        {{/if}}
+        <section class="author-info-social">
+            {{#if website}}<a href="{{website}}" class="author-info-social-website">Website</a>{{/if}}
+            <a href="{{url}}" class="author-info-social-feature">Profile</a>
+			
+			{{#if facebook}}<a href="{{facebook_url}}" class="author-link icon-facebook">Friend me on Facebook</a>{{/if}}
+
+			{{#if twitter}}<a href="{{twitter_url}}" class="author-link icon-twitter">Follow me on Twitter</a>{{/if}}
+
+            <a href="https://github.com/daenetCorporation" class="author-info-social-github">GitHub</a>
+        </section>
+        {{/author}}
+    </section>
+	
+	<section class="share">
+	<h4>Share this post</h4>
+                <a class="icon-twitter" href="https://twitter.com/intent/tweet?text={{encode title}}&amp;url={{url absolute="true"}}"
+                    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <span class="hidden">Twitter</span>
+                </a>
+                <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{url absolute="true"}}"
+                    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <span class="hidden">Facebook</span>
+                </a>
+                <a class="icon-google-plus" href="https://plus.google.com/share?url={{url absolute="true"}}"
+                   onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <span class="hidden">Google+</span>
+                </a>
+	</section>
+</figure>

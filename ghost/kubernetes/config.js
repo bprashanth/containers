@@ -12,7 +12,7 @@ config = {
     // When running Ghost in the wild, use the production environment.
     // Configure your URL and mail settings here
     production: {
-      url: 'http://0.0.0.0:8080',
+      url: 'https://bitrot.in',
         mail: {},
         database: {
             client: 'sqlite3',
@@ -59,10 +59,11 @@ config = {
         database: {
             client: 'sqlite3',
             connection: {
-                filename: path.join(process.env.GHOST_CONTENT, '/data/ghost-dev.db')
+                filename: path.join(process.env.GHOST_CONTENT, '/data/ghost.db')
             },
             debug: false
         },
+
         // #### Server
         // Can be host & port (default), or socket
         server: {
@@ -73,9 +74,9 @@ config = {
         },
         // #### Paths
         // Specify where your content directory lives
-        paths: {
-            contentPath: path.join(process.env.GHOST_CONTENT, '/')
-        }
+        // paths: {
+        //   contentPath: path.join(process.env.GHOST_CONTENT, '/')
+        //}
     },
 
     // **Developers only need to edit below here**

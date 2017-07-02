@@ -41,6 +41,14 @@ spec:
       containers:
       # ghost:4.7.3-apache
       - image: bprashanth/ghost:0.3
+        imagePullPolicy: Always
+        env:
+        - name: NODE_ENV
+          value: production
+        - name: GHOST_SOURCE
+          value: /usr/src/ghost
+        - name: GHOST_CONTENT
+          value: /var/lib/ghost
         name: ghost
         ports:
         - containerPort: 80
