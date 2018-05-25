@@ -1,0 +1,9 @@
+<div id="sidebar" class="sidebar col-md-4 col-lg-4">
+    {{! Global: Tag cloud }}
+    {{> "tag_cloud"}}
+
+    {{! Article: Show article directory }}
+    {{#is "post"}}
+        {{> "toc"}}
+    {{/is}}
+</div>
