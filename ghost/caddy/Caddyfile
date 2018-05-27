@@ -1,0 +1,6 @@
+kdump.in {
+  proxy / localhost:8080 {
+    transparent
+  }
+  tls prashanthseven@gmail.com
+}
