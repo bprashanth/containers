@@ -24,10 +24,10 @@ drwxr-x--- 4 beeps eng 4.0K Jul  2 13:01 themes
 and execute
 ```
 $ docker run -d --env NODE_ENV=production --name ghost -p 8080:2368 \
-  -v $HOME/ghost:/var/lib/ghost \
-  -v $(dirname `pwd`)/kubernetes/themes:/usr/src/ghost/content/themes \
-  -v $(dirname `pwd`)/kubernetes/config.js:/usr/src/ghost/content/staging_config.js \
-  bprashanth/ghost:0.2
+  -v $HOME/ghost:/var/lib/ghost:Z \
+  -v $(dirname `pwd`)/kubernetes/themes:/usr/src/ghost/content/themes:Z \
+  -v $(dirname `pwd`)/kubernetes/config.js:/usr/src/ghost/config.js:Z \
+  bprashanth/ghost:0.5
 ```
 
 and visit `:8080`
