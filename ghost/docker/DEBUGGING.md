@@ -4,8 +4,8 @@
 $ rm -rf $HOME/ghost
 
 $ docker rm ghost; docker run -d --env NODE_ENV=development --name ghost -p 8080:2368 -v $HOME/ghost:/var/lib/ghost -v $(dirname `pwd`)/kubernetes/themes:/usr/src/ghost/content/themes -v $(dirname `pwd`)/kubernetes/config.js:/usr/src/ghost/config.js ghost:0.11.13
-
-$ docker rm ghost; docker run -d --env NODE_ENV=development --name ghost -p 8080:2368 -v $HOME/ghost:/var/lib/ghost:Z -v $(dirname `pwd`)/kubernetes/themes:/usr/src/ghost/content/themes:Z -v $(dirname `pwd`)/kubernetes/config.js:/usr/src/ghost/config.js:Z bprashanth/ghost:0.5
+$ docker rm ghost; docker run -d --env NODE_ENV=production --name ghost -p 8080:2368 -v $HOME/ghost:/var/lib/ghost:Z -v $(dirname `pwd`)/kubernetes/themes:/usr/src/ghost/content/themes:Z -v $(dirname `pwd`)/kubernetes/config.js:/usr/src/ghost/config.js:Z bprashanth/ghost:0.5
+$ docker run --name caddy -v $(dirname `pwd`)/caddy/Caddyfile:/etc/Caddyfile:Z -v $(dirname `pwd`)/caddy/.caddy:/root/.caddy:Z -p 80:80 -p 443:443 -e ACME_AGREE=true --net=host -d abiosoft/caddy:latest
 ```
 
 Running on an existing machine just requires the second command, or a `docker restart ghost`
