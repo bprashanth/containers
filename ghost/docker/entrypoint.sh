@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# GHOST_SOURCE=/usr/src/ghost
+# GHOST_CONTENT=/var/lib/ghost
+
 if [ -f "${GHOST_SOURCE}/staging_config.js" ]; then
   # simply mounting it also does the trick but changes permissions on the host
   cp "${GHOST_SOURCE}/staging_config.js" "${GHOST_CONTENT}/config.js"
