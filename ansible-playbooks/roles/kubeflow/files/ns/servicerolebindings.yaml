@@ -1,0 +1,13 @@
+# This file contains all the Service RBAC.
+apiVersion: rbac.istio.io/v1alpha1
+kind: ServiceRoleBinding
+metadata:
+  name: bind-ml-pipeline-everyone
+  namespace: kubeflow
+spec:
+  roleRef:
+    kind: ServiceRole
+    name: ml-pipeline-services
+  subjects:
+  - user: '*'
+

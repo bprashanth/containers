@@ -1,0 +1,50 @@
+- name: Install kind
+  get_url:
+    url: "https://kind.sigs.k8s.io/dl/{{ kind_version }}/kind-linux-amd64"
+    dest: /usr/local/bin/kind
+    mode: '0755'
+
+- name: Install kubectl
+  get_url:
+    url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+    dest: /usr/local/bin/kubectl
+    mode: '0755'
+
+- name: Copy kind config
+  copy:
+    src: kind.yaml
+    dest: /tmp/
+
+# TODO: Don't clobber clusters. Check if a healthy Kubeflow already exists.
+# TODO: Configure a cluster name. What does this do if there are > 1 clusters?
+- name: Delete kind cluster
+  # Unfortunately kind doesn't take a --config flag
+  # TODO: templatize the name and use the same one in the kind.yaml
+  shell: kind delete cluster --name mls
+  become: false
+
+# We archive and delete the etcd data dir to avoid weird issues where kind tries
+# to install something that already exists etc (eg: pods will get created as
+# "Running" but not have a container on the node). The right way to restore
+# would be to re-read the json from the tarball and re-apply the right yamls.
+# TODO: this is guaranteed to not work if etcd is encrypted. We should use
+# etcd's native backup/restore commands. More importantly this may not even be
+# *correct* as copy a db's datadir in-between commits might lead to
+# inconsistencies.
+- name: Archive etcd volume mount
+  archive:
+    path: /data/etcd
+    dest: "/data/etcd-{{ lookup('pipe', 'date +%Y%m%d%H%M%S') }}.zip"
+    remove: yes
+    format: zip
+
+# TODO: there's a race if we deleted the cluster in the previous step. It
+# takes a while to tear down the docker network used by kind, and kind does so
+# async. If we
+# try to re-create the cluster in this window, it will fail with "kindnet
+# already exists".
+- name: Create kind cluster
+  shell: kind create cluster --config /tmp/kind.yaml --name mls
+  become: false
+
+

@@ -1,0 +1,39 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
+  # This is a hack but it allows us to expose services via hostPort. Note that
+  # these mapping are from kind node to the vm/host. We need an additional set
+  # of mappings from containers in the kind node to the kind node. This second
+  # mapping happens via pod yaml. See "Expose loadbalancer" step for an example.
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 80
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 443
+    protocol: TCP
+  - containerPort: 8080
+    hostPort: 8080
+    protocol: TCP
+  - containerPort: 8000
+    hostPort: 8000
+    protocol: TCP
+  extraMounts:
+  # This effectively gets etcd data directory and other nfs volumes into a
+  # predictable path on the host. The idea being, if we move this cluster
+  # elsewhere mounting the same volume under /data will suffice to restore the
+  # state of the cluster.
+  # TODO: Back this path with something like EBS. Snapshot it.
+  # See https://github.com/WadhwaniAI/ml-studio/issues/18 for details.
+  - containerPath: /var/lib/etcd
+    hostPath: /data/etcd
+  - containerPath: /var/wai-nfs-provisioner
+    hostPath: /data/wai-nfs-provisioner
+

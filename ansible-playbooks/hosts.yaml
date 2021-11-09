@@ -1,0 +1,22 @@
+all:
+  vars:
+    # This can be any private key, as long as the corresponding
+    # public key is in the ansible_hosts' ~/.ssh/authorized_keys list.
+    ansible_ssh_private_key_file: ~/.ssh/google_compute_engine
+  children:
+    master:
+      hosts:
+        master-node:
+          # This can be any IP, as long as it accepts SSH connections from the
+          # ansible runner on :22.
+          ansible_host: 34.93.116.75
+          # This can be any username, as long as a. the ansible host accepts SSH
+          # connections for the username and b. the user can become sudo.
+          ansible_user: beeps
+    local:
+      hosts: 127.0.0.1
+      # TODO: we should be able to run local without -K. We need sudo password
+      # only because of fact gathering (unused). However, specifying
+      # `gather_facts: no` here doesn't seem to work.
+
+

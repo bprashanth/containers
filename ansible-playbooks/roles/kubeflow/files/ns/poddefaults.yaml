@@ -1,0 +1,35 @@
+# See https://github.com/kubeflow/kubeflow/blob/master/components/admission-webhook/README.md
+# to understand poddefaults in detail.
+apiVersion: kubeflow.org/v1alpha1
+kind: PodDefault
+metadata:
+  name: access-ml-pipeline
+  namespace: admin
+spec:
+  desc: Allow access to Kubeflow Pipelines
+  env:
+  # This is the value of the environment variable put into pods that need
+  # access to the ml-pipeline
+  - name: ML_PIPELINE_SA_TOKEN_PATH
+    value: /var/run/secrets/ml-pipeline/token
+  # Pods bearing this label will get the env configuration above, as well as
+  # the volumeMounts below.
+  selector:
+    matchLabels:
+      access-ml-pipeline: "true"
+  volumeMounts:
+  - mountPath: /var/run/secrets/ml-pipeline
+    name: volume-ml-pipeline-token
+    readOnly: true
+  volumes:
+  - name: volume-ml-pipeline-token
+    projected:
+      sources:
+      # This service account is managed by the kubelet transparently. Hence it's
+      # left nameless.
+      - serviceAccountToken:
+          audience: ml-pipeline
+          expirationSeconds: 99999
+          # This is the path under the mountPath the token is copied into
+          path: token
+

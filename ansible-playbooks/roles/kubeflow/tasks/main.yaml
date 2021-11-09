@@ -1,0 +1,52 @@
+# The following tasks expect a healthy kubernetes cluster accesible via kubectl
+# as the current (non-sudo) user.
+# TODO: no-op if Kubeflow is already deployed.
+# TODO: Don't download kfctl everytime. Ideally we'd install this into
+# /usr/local/bin, but that needs sudo and this task runs with become: false by
+# design.
+- name: Download kfctl
+  get_url:
+    url: 'https://github.com/kubeflow/kfctl/releases/download/{{ kfctl_version }}/{{ kfctl_tarball }}'
+    dest: /tmp
+    remote_src: true
+
+- name: Unpack kfctl
+  unarchive:
+    src: "/tmp/{{ kfctl_tarball }}"
+    dest: /tmp
+    remote_src: true
+    mode: '0755'
+
+- name: Re-create KFDIR
+  shell: "rm -rf {{ kf_dir }} && mkdir -p {{ kf_dir }}"
+
+- name: Deploy kubeflow
+  shell:
+    cmd: /tmp/kfctl apply -V -f "https://raw.githubusercontent.com/kubeflow/manifests/{{ kubeflow_branch }}-branch/kfdef/{{ kubeflow_manifest }}"
+    chdir: "{{ kf_dir }}"
+
+# This is an optional step, but it halves the node bring up time.
+- name: Scale down unnecessary kubeflow components
+  shell: "kubectl scale deployment {{ item }} --replicas 0 --namespace kubeflow"
+  loop: [
+    'argo-ui',
+    'cache-deployer-deployment',
+    'cache-server',
+    'katib-controller',
+    'katib-db-manager',
+    'katib-mysql',
+    'katib-ui',
+    'ml-pipeline-viewer-crd',
+    'ml-pipeline-visualizationserver',
+    'mpi-operator',
+    'mxnet-operator',
+    'pytorch-operator',
+    'seldon-controller-manager',
+    'spark-operatorsparkoperator',
+    'spartakus-volunteer'
+  ]
+
+- name: Update Kubeflow configs
+  include_tasks: config.yaml
+  tags: config
+

@@ -1,0 +1,15 @@
+# Basic packages to install on all hosts
+sys_packages: [ 'curl', 'vim', 'git']
+# Image used to test docker install
+default_container_image: 'busybox'
+docker_version: '20.10.6'
+kind_version: 'v0.10.0'
+kubectl_version: 'v1.20.1'
+kfctl_version: 'v1.2.0'
+kfctl_tarball: 'kfctl_v1.2.0-0-gbc038f9_linux.tar.gz'
+kubeflow_branch: 'v1.2'
+kubeflow_manifest: 'kfctl_istio_dex.v1.2.0.yaml'
+# Temporary directory used for kubeflow manifests
+# TODO: This directory is rm -rf'd at the start of every install so scope it to
+# a given user or make it a random tmpdir.
+kf_dir: '/tmp/kfdir'

@@ -1,0 +1,99 @@
+# NFS server provisioner taken from https://github.com/kubernetes-sigs/nfs-ganesha-server-and-external-provisioner
+apiVersion: v1
+kind: Namespace
+metadata:
+  # TODO: templatize the ns to avoid repitition
+  name: nfs
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-server
+  namespace: nfs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-server
+  template:
+    metadata:
+      labels:
+        app: nfs-server
+    spec:
+      containers:
+      - name: nfs-server
+        # See examples/nfs for more details on the image
+        image: k8s.gcr.io/volume-nfs:0.8
+        ports:
+        - name: nfs
+          containerPort: 2049
+        - name: mountd
+          containerPort: 20048
+        - name: rpcbind
+          containerPort: 111
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - mountPath: /exports
+            name: export-volume
+      # The source of this volume can easily be another PV backed by AWS EBS.
+      volumes:
+        - name: export-volume
+          hostPath:
+            path: /var/wai-nfs-provisioner
+---
+# Service representing the nfs server
+kind: Service
+apiVersion: v1
+metadata:
+  name: nfs-server
+  namespace: nfs
+  labels:
+    app: nfs-server
+spec:
+  # Unfortunately nfs doesn't resolve DNS names so we need to know the svc ip
+  # before deploying the pv. This can obviously be done by hand, we just hard
+  # code the IP  to reduce the source of error in this example.
+  # TODO: Templatize this to the IP of the on-prem NFS server.
+  clusterIP: 10.96.117.101
+  ports:
+    - name: nfs
+      port: 2049
+    - name: nfs-udp
+      port: 2049
+      protocol: UDP
+    - name: nlockmgr
+      port: 32803
+    - name: nlockmgr-udp
+      port: 32803
+      protocol: UDP
+    - name: mountd
+      port: 20048
+    - name: mountd-udp
+      port: 20048
+      protocol: UDP
+    - name: rquotad
+      port: 875
+    - name: rquotad-udp
+      port: 875
+      protocol: UDP
+    - name: rpcbind
+      port: 111
+    - name: rpcbind-udp
+      port: 111
+      protocol: UDP
+    - name: statd
+      port: 662
+    - name: statd-udp
+      port: 662
+      protocol: UDP
+  selector:
+    # This service points to the pods of the localhost provisioner, since those
+    # are also the pods that are managing the nfs server. On prem, this service
+    # would be unnecessary on the whole - but creating it should still give you
+    # a stable service vip in case you need to change the NFS server IP. In that
+    # case, it would just be a "headless service".
+    # https://kubernetes.io/docs/concepts/services-networking/service/#headless-services
+    # TODO: Make this headless when the on-prem flag is set.
+    app: nfs-server
+

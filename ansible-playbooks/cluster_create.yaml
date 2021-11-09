@@ -1,0 +1,28 @@
+# This playbook holds the roles that are required to install a Kubernetes
+# cluster, and various applications on top of it.
+- hosts: all
+  become: true
+  become_method: sudo
+  vars_files:
+  - default.yaml
+  roles:
+  - common
+  - docker
+
+- hosts: master
+  become: true
+  vars_files:
+  - default.yaml
+  roles:
+  # Every node created is both a master and a worker currently, because the only
+  # supported provisoioning is via kind.
+  - master
+
+- hosts: minion
+  become: true
+  vars_files:
+  - default.yaml
+  roles:
+  - minion
+
+- import_playbook: post_create.yaml

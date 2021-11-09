@@ -1,0 +1,16 @@
+# A User = NS + SA, so every entry here must also have a profile entry, and
+# apply to exactly one NS/SA. The SAs typically bind to either Roles in the same
+# NS, or ClusterRoles via clusterrolebindings.yaml.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: allow-workflow-nb-admin
+  namespace: admin
+subjects:
+- kind: ServiceAccount
+  name: default-editor
+  namespace: admin
+roleRef:
+  kind: ClusterRole
+  name: pipeline-runner
+  apiGroup: rbac.authorization.k8s.io

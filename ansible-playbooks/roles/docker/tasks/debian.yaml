@@ -1,0 +1,52 @@
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu bionic stable
+    state: present
+  # Ubuntu 18.04 is bionic. The above line changer with versions.
+  when: ansible_distribution_version == "18.04"
+
+- name: Update apt and install docker-ce
+  apt:
+    pkg:
+    - containerd.io
+    - "docker-ce=5:{{ docker_version }}*"
+    - "docker-ce-cli=5:{{ docker_version }}*"
+    update_cache: true
+
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+# TODO: according to docs ansible.builtin.meta: reset_connection should work,
+# and is more polite than the next step which kills all ssh connections. But
+# it doesn't seem to, even on ansible 2.9.
+- name: Kill SSH
+  shell: sleep 1; pkill -u {{ ansible_user }} sshd
+  async: 3
+  poll: 2
+
+- name: Pull default Docker image
+  docker_image:
+    name: "{{ default_container_image }}"
+    source: pull
+
+- name: Create test container
+  become: false
+  docker_container:
+    image: "{{ default_container_image }}"
+    name: "{{ default_container_image }}"
+    command: "sleep 60"
+    state: present
+
+

@@ -1,0 +1,15 @@
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  # Profile name becomes namespace name
+  name: admin
+spec:
+  owner:
+    kind: User
+    name: admin@kubeflow.org
+  resourceQuotaSpec:
+   hard:
+     # TODO: Dynamically configure cpu/memory/persistentvolumeclaims via a smart
+     # controller.
+     requests.nvidia.com/gpu: "10"
+     requests.storage: "250Gi"

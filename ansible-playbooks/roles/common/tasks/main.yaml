@@ -1,0 +1,19 @@
+- name: Log OS family and distro version
+  shell: echo "{{ ansible_os_family }} {{ ansible_distribution_version }}"
+
+- name: Install Prerequisites
+  apt: name=aptitude update_cache=yes state=latest force_apt_get=yes
+
+- name: Update apt
+  apt: update_cache=yes
+
+- name: Install required system packages
+  apt: name={{ sys_packages }} state=latest
+- name: Install aptitude using apt
+  apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+- name: Install required system packages
+  apt: name={{ item }} state=latest update_cache=yes
+  loop: [ 'apt-transport-https', 'ca-certificates', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'gnupg', 'lsb-release']
+
+

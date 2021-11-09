@@ -1,0 +1,8 @@
+# This playbook holds the roles that can only run on an existing Kubernetes
+# cluster.
+- hosts: master, local
+  become: false
+  vars_files:
+  - default.yaml
+  roles:
+  - kubeflow
