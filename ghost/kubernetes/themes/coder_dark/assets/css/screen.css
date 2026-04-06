@@ -830,3 +830,38 @@ body .gist .pl-s1, body .gist .pl-pds {
   color: #76A22F; 
 }
 
+/* ==========================================================================
+   Ghost Content Card Styles (Required)
+   ========================================================================== */
+
+.kg-width-wide {
+    position: relative;
+    width: 85vw;
+    min-width: 100%;
+    margin: auto calc(50% - 50vw);
+    transform: translateX(calc(50vw - 50%));
+}
+
+.kg-width-full {
+    position: relative;
+    width: 100vw;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+/* Responsive adjustments for content cards */
+@media (max-width: 800px) {
+    .kg-width-wide,
+    .kg-width-full {
+        width: 100%;
+        margin: 0;
+        transform: none;
+        left: auto;
+        right: auto;
+    }
+}
+
+
+

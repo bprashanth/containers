@@ -7,7 +7,6 @@
 
     {{! Page Meta }}
     <title>{{meta_title}}</title>
-    <meta name="description" content="{{meta_description}}" />
 
     <meta name="HandheldFriendly" content="True" />
     <meta name="MobileOptimized" content="320" />
@@ -30,12 +29,12 @@
     <div id="content-left">
       <div class="vertical">
         <div class="blog-title-wrap">
-        {{#if @blog.logo}}<a id="blog-logo" href="{{@blog.url}}"><img src="{{@blog.logo}}" alt="Blog Logo" /></a>{{/if}}
-        <h1 class="blog-title"><a href="{{@blog.url}}">{{@blog.title}}</a></h1>
+        {{#if @site.logo}}<a id="blog-logo" href="{{@site.url}}"><img src="{{@site.logo}}" alt="Blog Logo" /></a>{{/if}}
+        <h1 class="blog-title"><a href="{{@site.url}}">{{@site.title}}</a></h1>
         </div>
 
         <div class="blog-description-wrap">
-        <h2 class="blog-description">{{@blog.description}}</h2>
+        <h2 class="blog-description">{{@site.description}}</h2>
         </div>
     </div>
     </div>
