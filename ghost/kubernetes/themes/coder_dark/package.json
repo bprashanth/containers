@@ -1,4 +1,7 @@
 {
-  "name": "Coder",
-  "version": "0.0.1"
+  "name": "coder",
+  "version": "0.0.1",
+  "author": {
+    "email": "redpig@notwelcome.in"
+  }
 }

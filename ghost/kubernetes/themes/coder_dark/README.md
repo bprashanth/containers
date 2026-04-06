@@ -1,12 +1,17 @@
-Coder
+Coder: Dark
 =======
 
-A GitHub homage theme for the [Ghost Blogging platform](http://ghost.org "Ghost Blogging Platform") - forked from Casper, the default Ghost theme.
-
-Visit Ghost at: [www.ghost.org](http://www.ghost.org "Ghost")
+A GitHub homage theme for the [Ghost Blogging platform](http://ghost.org "Ghost Blogging Platform").
 
 ![Coder Screenshot](coder.png?raw=true)
 
-
 Demo
-http://coderd.herokuapp.com/
+https://silentsky.notwelcome.in
+
+## LICENSE
+
+MIT license. 
+
+## Acknowledgement
+Thank you @mbejda for the awesomeness in the origin [Coder Ghost Theme](https://github.com/mbejda/CoderGhostTheme). 
+
